@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "AcQzfaCrzhsJ1AReeRghCXowLO7+XO21XNeQcWcD4bmzywaZPllt8fXAn5yzfxQRV5Qpr1NY9RHC7YsPX7Zxuw==",
+  "success": true,
+  "projectFilePath": "/home/antonio/Documentos/OpenBootcamp/Api_Net/Primer_proyecto/Primer_proyecto.csproj",
+  "expectedPackageFiles": [
+    "/home/antonio/.nuget/packages/microsoft.aspnetcore.openapi/7.0.3/microsoft.aspnetcore.openapi.7.0.3.nupkg.sha512",
+    "/home/antonio/.nuget/packages/microsoft.extensions.apidescription.server/3.0.0/microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "/home/antonio/.nuget/packages/microsoft.openapi/1.4.3/microsoft.openapi.1.4.3.nupkg.sha512",
+    "/home/antonio/.nuget/packages/swashbuckle.aspnetcore/6.2.3/swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "/home/antonio/.nuget/packages/swashbuckle.aspnetcore.swagger/6.2.3/swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "/home/antonio/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.2.3/swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "/home/antonio/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.2.3/swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}
