@@ -31,3 +31,13 @@
 /home/antonio/Documentos/OpenBootcamp/Api_Net/Primer_proyecto/obj/Debug/net7.0/Primer_proyecto.pdb
 /home/antonio/Documentos/OpenBootcamp/Api_Net/Primer_proyecto/obj/Debug/net7.0/Primer_proyecto.genruntimeconfig.cache
 /home/antonio/Documentos/OpenBootcamp/Api_Net/Primer_proyecto/obj/Debug/net7.0/ref/Primer_proyecto.dll
+/home/antonio/Documentos/OpenBootcamp/Api_Net/Primer_proyecto/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.dll
+/home/antonio/Documentos/OpenBootcamp/Api_Net/Primer_proyecto/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/home/antonio/Documentos/OpenBootcamp/Api_Net/Primer_proyecto/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Relational.dll
+/home/antonio/Documentos/OpenBootcamp/Api_Net/Primer_proyecto/bin/Debug/net7.0/Npgsql.dll
+/home/antonio/Documentos/OpenBootcamp/Api_Net/Primer_proyecto/bin/Debug/net7.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/home/antonio/Documentos/OpenBootcamp/Api_Net/Primer_proyecto/bin/Debug/net7.0/Humanizer.dll
+/home/antonio/Documentos/OpenBootcamp/Api_Net/Primer_proyecto/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Design.dll
+/home/antonio/Documentos/OpenBootcamp/Api_Net/Primer_proyecto/bin/Debug/net7.0/Microsoft.Extensions.DependencyModel.dll
+/home/antonio/Documentos/OpenBootcamp/Api_Net/Primer_proyecto/bin/Debug/net7.0/Mono.TextTemplating.dll
+/home/antonio/Documentos/OpenBootcamp/Api_Net/Primer_proyecto/bin/Debug/net7.0/System.CodeDom.dll

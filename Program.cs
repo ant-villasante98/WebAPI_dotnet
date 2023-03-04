@@ -1,7 +1,39 @@
-using System.Net;
-using Microsoft.OpenApi.Models;
+// using System.Net;
+// using Microsoft.OpenApi.Models;
+using Npgsql;
+using Microsoft.EntityFrameworkCore;
+using Primer_proyecto.DataAcces;
+// using Primer_proyecto.Univer;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Conexcion con la base de datos
+string CONNECTIONNAME = "UniversityDB";
+
+var connectionString = builder.Configuration.GetConnectionString(CONNECTIONNAME);
+
+// add Context
+
+builder.Services.AddDbContext<UniversityDBContext>(options =>
+options.UseNpgsql(connectionString));
+
+
+
+
+
+
+
+// await using var conn = new NpgsqlConnection(connectionString);
+// await conn.OpenAsync();
+// //consulta a  base de datos
+// await using (var cmd = new NpgsqlCommand("SELECT first_name FROM actor LIMIT 10;", conn))
+// await using (var reader = await cmd.ExecuteReaderAsync())
+// {
+//     while (await reader.ReadAsync())
+//         Console.WriteLine(reader.GetString(0));
+// }
+
+
 
 // Add services to the container.
 
