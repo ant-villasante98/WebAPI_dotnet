@@ -16,6 +16,11 @@ var connectionString = builder.Configuration.GetConnectionString(CONNECTIONNAME)
 builder.Services.AddDbContext<UniversityDBContext>(options =>
 options.UseNpgsql(connectionString));
 
+
+
+// 7. add Services of JWT Authorization
+// builder.Services.AddJwtTokenServices(builder.Configuration);
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -27,7 +32,7 @@ builder.Services.AddScoped<IStudentService, StudentService>();
 
 builder.Services.AddEndpointsApiExplorer();
 
-
+// 8. Configuracion de Swagger para que tome el JWT
 builder.Services.AddSwaggerGen();
 
 // 5. Habilitar el cors
@@ -40,6 +45,14 @@ builder.Services.AddCors(options =>
         builder.AllowAnyHeader();
     });
 });
+
+
+/*
+    Para usar JWT se deben instalar los siguientes paquetes
+    - System.IdentityModel.Tokens.Jwt
+    - Microsoft.AspNetCore.Authentication.JwtBearer
+    - Microsoft.IdentityModel.JsonWebTokens
+*/
 
 var app = builder.Build();
 
