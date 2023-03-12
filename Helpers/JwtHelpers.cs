@@ -3,7 +3,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using Primer_proyecto.Models.DataModels;
 
-namespace Primer_proyecto;
+namespace Primer_proyecto.Helpers;
 public static class JwtHelpers
 {
     public static IEnumerable<Claim> GetClaims(this UserTokens userAccounts, Guid id)
@@ -35,7 +35,7 @@ public static class JwtHelpers
 
     }
 
-    public static UserTokens GetUserTokenKey(UserTokens model, JwtSettings jwtSettings)
+    public static UserTokens GetTokenKey(UserTokens model, JwtSettings jwtSettings)
     {
         try
         {
