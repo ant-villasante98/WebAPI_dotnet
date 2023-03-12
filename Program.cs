@@ -1,56 +1,45 @@
-// using System.Net;
-// using Microsoft.OpenApi.Models;
-using Npgsql;
+// 1. agreagar uso de EntityFrameworkCore
+
 using Microsoft.EntityFrameworkCore;
 using Primer_proyecto.DataAcces;
-// using Primer_proyecto.Univer;
+using Primer_proyecto.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Conexcion con la base de datos
+//2. Conexcion con la base de datos
 string CONNECTIONNAME = "UniversityDB";
 
 var connectionString = builder.Configuration.GetConnectionString(CONNECTIONNAME);
 
-// add Context
+// 3. add Context-- agregar el contexto de servicio al builder
 
 builder.Services.AddDbContext<UniversityDBContext>(options =>
 options.UseNpgsql(connectionString));
-
-
-
-
-
-
-
-// await using var conn = new NpgsqlConnection(connectionString);
-// await conn.OpenAsync();
-// //consulta a  base de datos
-// await using (var cmd = new NpgsqlCommand("SELECT first_name FROM actor LIMIT 10;", conn))
-// await using (var reader = await cmd.ExecuteReaderAsync())
-// {
-//     while (await reader.ReadAsync())
-//         Console.WriteLine(reader.GetString(0));
-// }
-
-
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
+// 4. Agregar los servicios despues de los controladores
+builder.Services.AddScoped<IStudentService, StudentService>();
+
+
 builder.Services.AddEndpointsApiExplorer();
 
-// builder.Services.AddHttpsRedirection(
-//     options =>
-// {
-//     options.RedirectStatusCode = (int)HttpStatusCode.TemporaryRedirect;
-//     options.HttpsPort = 5001;
-// }
-// );
 
 builder.Services.AddSwaggerGen();
+
+// 5. Habilitar el cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "CorsPolicy", builder =>
+    {
+        builder.AllowAnyOrigin();
+        builder.AllowAnyMethod();
+        builder.AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -64,14 +53,14 @@ if (true)
 }
 
 app.UseHttpsRedirection();
-app.UseCors(builder => builder
-    .AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyHeader());
+
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// 6. Decir a la aplicacion que use los cors
+app.UseCors("CorsPolicy");
 
 app.Run();

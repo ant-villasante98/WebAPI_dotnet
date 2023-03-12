@@ -12,8 +12,8 @@ using Primer_proyecto.DataAcces;
 namespace Primer_proyecto.Migrations
 {
     [DbContext(typeof(UniversityDBContext))]
-    [Migration("20230309150129_Chapter")]
-    partial class Chapter
+    [Migration("20230312152838_ChapterUpdate")]
+    partial class ChapterUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
