@@ -1,6 +1,8 @@
 // 1. agreagar uso de EntityFrameworkCore
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Primer_proyecto;
 using Primer_proyecto.DataAcces;
 using Primer_proyecto.Services;
 
@@ -19,7 +21,7 @@ options.UseNpgsql(connectionString));
 
 
 // 7. add Services of JWT Authorization
-// builder.Services.AddJwtTokenServices(builder.Configuration);
+builder.Services.AddJwtTokenServices(builder.Configuration);
 
 // Add services to the container.
 
@@ -29,11 +31,41 @@ builder.Services.AddControllers();
 // 4. Agregar los servicios despues de los controladores
 builder.Services.AddScoped<IStudentService, StudentService>();
 
+// 8. Agregar Autorizacion
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("UserOnlyPolicy", policy => policy.RequireClaim("UserOnly", "User1"));
+});
 
 builder.Services.AddEndpointsApiExplorer();
 
-// 8. Configuracion de Swagger para que tome el JWT
-builder.Services.AddSwaggerGen();
+// 9. Configuracion de Swagger para que tome el JWT
+builder.Services.AddSwaggerGen(options =>
+    {
+        // Definimos la Security for authorization
+        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+        {
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            Scheme = "Bearer",
+            BearerFormat = "JWT",
+            In = ParameterLocation.Header,
+            Description = "JWT Authorization Heaer using Bearer Scheme"
+        });
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+            {
+                new OpenApiSecurityScheme{
+                Reference = new OpenApiReference{
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+                },
+                new string[]{}
+            }
+        });
+    }
+
+);
 
 // 5. Habilitar el cors
 builder.Services.AddCors(options =>

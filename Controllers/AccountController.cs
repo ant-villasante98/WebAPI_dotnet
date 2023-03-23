@@ -6,32 +6,40 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Primer_proyecto.DataAcces;
 using Primer_proyecto.Helpers;
 using Primer_proyecto.Models.DataModels;
 
 namespace Primer_proyecto.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class AccountController : ControllerBase
     {
+        private readonly UniversityDBContext _context;
         private readonly JwtSettings _jwtSettings;
-        public AccountController(JwtSettings jwtSettings)
+        public AccountController(JwtSettings jwtSettings, UniversityDBContext context)
         {
+            _context = context;
             _jwtSettings = jwtSettings;
         }
 
+        // Examples Users
         private IEnumerable<User> Logins = new List<User> {
             new User(){ Id= 1, Email = "martin@email.com", Name = "Admin", Password= "Admin"},
-            new User(){ Id= 2, Email = "pepe@email.com", Name = "User1", Password= "pepe"},
+            new User(){ Id= 2, Email = "pepe@email.com", Name = "User 1", Password= "pepe"},
         };
         [HttpPost]
         public IActionResult GetToken(UserLogins userLogin)
         {
+
+            // Modificar para Acceder desde el contexto  con Linq
             try
             {
                 var Token = new UserTokens();
                 var Valid = Logins.Any(user => user.Name.Equals(userLogin.UserName, StringComparison.OrdinalIgnoreCase));
+
+                // var searchUser = await _context.Users.FindAsync(userLogin.UserName);
 
                 if (Valid)
                 {
@@ -57,7 +65,7 @@ namespace Primer_proyecto.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administratior")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
         public IActionResult GetUserList()
         {
             return Ok(Logins);
