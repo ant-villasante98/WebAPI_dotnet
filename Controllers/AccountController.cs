@@ -37,18 +37,40 @@ namespace Primer_proyecto.Controllers
             try
             {
                 var Token = new UserTokens();
-                var Valid = Logins.Any(user => user.Name.Equals(userLogin.UserName, StringComparison.OrdinalIgnoreCase));
+                // var Valid = Logins.Any(user => user.Name.Equals(userLogin.UserName, StringComparison.OrdinalIgnoreCase));
 
-                // var searchUser = await _context.Users.FindAsync(userLogin.UserName);
+                // // var searchUser = await _context.Users.FindAsync(userLogin.UserName);
 
-                if (Valid)
+                // if (Valid)
+                // {
+                //     var user = Logins.FirstOrDefault(user => user.Name.Equals(userLogin.UserName, StringComparison.OrdinalIgnoreCase));
+                //     Token = JwtHelpers.GetTokenKey(new UserTokens()
+                //     {
+                //         UserName = user.Name,
+                //         EmailId = user.Email,
+                //         Id = user.Id
+                //     }, _jwtSettings);
+                // }
+                // else
+                // {
+                //     return BadRequest("Wrong Password");
+                // }
+                // return Ok(Token);
+
+
+                // usando el contexto  --- Nota corregir el nombre del pasword
+
+                var searchUser = (from user in _context.Users
+                                  where user.Name == userLogin.UserName && user.Password == userLogin.Passwoed
+                                  select user).FirstOrDefault();
+                Console.WriteLine("User Found", searchUser);
+                if (searchUser != null)
                 {
-                    var user = Logins.FirstOrDefault(user => user.Name.Equals(userLogin.UserName, StringComparison.OrdinalIgnoreCase));
                     Token = JwtHelpers.GetTokenKey(new UserTokens()
                     {
-                        UserName = user.Name,
-                        EmailId = user.Email,
-                        Id = user.Id
+                        UserName = searchUser.Name,
+                        EmailId = searchUser.Email,
+                        Id = searchUser.Id
                     }, _jwtSettings);
                 }
                 else
@@ -56,6 +78,7 @@ namespace Primer_proyecto.Controllers
                     return BadRequest("Wrong Password");
                 }
                 return Ok(Token);
+
             }
             catch (Exception ex)
             {
