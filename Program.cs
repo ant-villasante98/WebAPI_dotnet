@@ -23,6 +23,9 @@ options.UseNpgsql(connectionString));
 // 7. add Services of JWT Authorization
 builder.Services.AddJwtTokenServices(builder.Configuration);
 
+// Localizacion
+builder.Services.AddLocalization(option => option.ResourcesPath = "Resources");
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -87,6 +90,15 @@ builder.Services.AddCors(options =>
 */
 
 var app = builder.Build();
+
+// Suported Cultures
+var suportedCultures = new[] { "en-US", "es-ES", "fr-FR", "de-DE" }; // idiomas soportados
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(suportedCultures[0])
+    .AddSupportedCultures(suportedCultures)
+    .AddSupportedUICultures(suportedCultures);
+// Add Localization
+app.UseRequestLocalization(localizationOptions);
 
 // Configure the HTTP request pipeline.
 if (true)

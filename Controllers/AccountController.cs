@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Primer_proyecto.DataAcces;
 using Primer_proyecto.Helpers;
 using Primer_proyecto.Models.DataModels;
@@ -18,10 +19,12 @@ namespace Primer_proyecto.Controllers
     {
         private readonly UniversityDBContext _context;
         private readonly JwtSettings _jwtSettings;
-        public AccountController(JwtSettings jwtSettings, UniversityDBContext context)
+        private readonly IStringLocalizer<AccountController> _stringLocalizer;
+        public AccountController(JwtSettings jwtSettings, UniversityDBContext context, IStringLocalizer<AccountController> stringLocalizer)
         {
             _context = context;
             _jwtSettings = jwtSettings;
+            _stringLocalizer = stringLocalizer;
         }
 
         // Examples Users
@@ -68,13 +71,21 @@ namespace Primer_proyecto.Controllers
                 {
                     return BadRequest("Wrong Password");
                 }
+
+                var welcome = _stringLocalizer["Welcome"];
                 Token = JwtHelpers.GetTokenKey(new UserTokens()
                 {
                     UserName = searchUser.Name,
                     EmailId = searchUser.Email,
                     Id = searchUser.Id
                 }, _jwtSettings);
-                return Ok(Token);
+                return Ok(
+                    new
+                    {
+                        Welcome = welcome.Value,
+                        token = Token
+                    }
+                );
 
             }
             catch (Exception ex)
