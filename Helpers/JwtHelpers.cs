@@ -19,10 +19,10 @@ public static class JwtHelpers
         {
             claims.Add(new Claim(ClaimTypes.Role, "Administrator"));
         }
-        else if (userAccounts.UserName == "User 1")
+        else
         {
             claims.Add(new Claim(ClaimTypes.Role, "User"));
-            claims.Add(new Claim("UserOnly", "User 1"));
+            claims.Add(new Claim("UserOnly", "User1"));
         }
         return claims;
 
