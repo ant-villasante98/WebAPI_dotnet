@@ -2,17 +2,48 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using NpgsqlTypes;
 using Primer_proyecto;
 using Primer_proyecto.DataAcces;
 using Primer_proyecto.Services;
 
+// 10. Use Serilog to log events
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.PostgreSQL;
+
 var builder = WebApplication.CreateBuilder(args);
+
+
+IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, ColumnWriterBase>
+{
+    {"message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
+    {"message_template", new MessageTemplateColumnWriter(NpgsqlDbType.Text) },
+    {"level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+    {"raise_date", new TimestampColumnWriter(NpgsqlDbType.Timestamp) },
+    {"exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
+    {"properties", new LogEventSerializedColumnWriter(NpgsqlDbType.Jsonb) },
+    {"props_test", new PropertiesColumnWriter(NpgsqlDbType.Jsonb) },
+    {"machine_name", new SinglePropertyColumnWriter("MachineName", PropertyWriteMethod.ToString, NpgsqlDbType.Text, "l") }
+};
 
 //2. Conexcion con la base de datos
 string CONNECTIONNAME = "UniversityDB";
 
 var connectionString = builder.Configuration.GetConnectionString(CONNECTIONNAME);
 
+//11. Config Serilog
+builder.Host.UseSerilog((hostBuilderCtx, loggerConf) =>
+{
+    loggerConf
+        .WriteTo.Console()
+        .WriteTo.Debug()
+        .WriteTo.PostgreSQL(connectionString, "Logs", columnWriters, restrictedToMinimumLevel: LogEventLevel.Information,
+            needAutoCreateTable: true,
+            respectCase: true,
+            useCopy: false)
+        .ReadFrom.Configuration(hostBuilderCtx.Configuration);
+});
 // 3. add Context-- agregar el contexto de servicio al builder
 
 builder.Services.AddDbContext<UniversityDBContext>(options =>
@@ -96,6 +127,8 @@ if (true)
     app.UseSwaggerUI();
     app.UseHsts();
 }
+// 12. Tell app to use Serilog
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 

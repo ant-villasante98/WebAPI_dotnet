@@ -21,9 +21,18 @@ public class WeatherForecastController : ControllerBase
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Administrator")]
+    // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Administrator")]
     public IEnumerable<WeatherForecast> Get()
     {
+
+        _logger.LogTrace($"{nameof(WeatherForecastController)} - {nameof(Get)} Trace Level Log");
+        _logger.LogDebug($"{nameof(WeatherForecastController)} - {nameof(Get)} Debug Level Log");
+        _logger.LogInformation($"{nameof(WeatherForecastController)} - {nameof(Get)} Debug Level Log");
+        _logger.LogWarning($"{nameof(WeatherForecastController)} - {nameof(Get)} Debug Level Log");
+        _logger.LogError($"{nameof(WeatherForecastController)} - {nameof(Get)} Debug Level Log");
+        _logger.LogCritical($"{nameof(WeatherForecastController)} - {nameof(Get)} Debug Level Log");
+
+
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
