@@ -38,7 +38,7 @@ builder.Host.UseSerilog((hostBuilderCtx, loggerConf) =>
     loggerConf
         .WriteTo.Console()
         .WriteTo.Debug()
-        .WriteTo.PostgreSQL(connectionString, "Logs", columnWriters, restrictedToMinimumLevel: LogEventLevel.Information,
+        .WriteTo.PostgreSQL(connectionString, "Logs", columnWriters, restrictedToMinimumLevel: LogEventLevel.Warning,
             needAutoCreateTable: true,
             respectCase: true,
             useCopy: false)

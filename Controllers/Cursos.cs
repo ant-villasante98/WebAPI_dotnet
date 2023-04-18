@@ -15,20 +15,24 @@ namespace Primer_proyecto.Controllers
     public class Cursos : ControllerBase
     {
         private readonly UniversityDBContext _context;
+        private readonly ILogger<Cursos> _logger;
 
-        public Cursos(UniversityDBContext context)
+        public Cursos(UniversityDBContext context, ILogger<Cursos> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/Cursos
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Curso>>> GetCursos()
         {
-          if (_context.Cursos == null)
-          {
-              return NotFound();
-          }
+            _logger.LogInformation($"{nameof(Cursos)} - {nameof(GetCursos)} Info Level Log");
+
+            if (_context.Cursos == null)
+            {
+                return NotFound();
+            }
             return await _context.Cursos.ToListAsync();
         }
 
@@ -36,10 +40,12 @@ namespace Primer_proyecto.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Curso>> GetCurso(int id)
         {
-          if (_context.Cursos == null)
-          {
-              return NotFound();
-          }
+            _logger.LogInformation($"{nameof(Cursos)} - {nameof(GetCurso)} Info Level Log");
+
+            if (_context.Cursos == null)
+            {
+                return NotFound();
+            }
             var curso = await _context.Cursos.FindAsync(id);
 
             if (curso == null)
@@ -55,6 +61,8 @@ namespace Primer_proyecto.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCurso(int id, Curso curso)
         {
+            _logger.LogInformation($"{nameof(Cursos)} - {nameof(PutCurso)} Info Level Log");
+
             if (id != curso.Id)
             {
                 return BadRequest();
@@ -68,6 +76,8 @@ namespace Primer_proyecto.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
+                _logger.LogError($"{nameof(Cursos)} - {nameof(PutCurso)} Info Level Log");
+
                 if (!CursoExists(id))
                 {
                     return NotFound();
@@ -86,10 +96,12 @@ namespace Primer_proyecto.Controllers
         [HttpPost]
         public async Task<ActionResult<Curso>> PostCurso(Curso curso)
         {
-          if (_context.Cursos == null)
-          {
-              return Problem("Entity set 'UniversityDBContext.Cursos'  is null.");
-          }
+            _logger.LogInformation($"{nameof(Cursos)} - {nameof(PostCurso)} Info Level Log");
+
+            if (_context.Cursos == null)
+            {
+                return Problem("Entity set 'UniversityDBContext.Cursos'  is null.");
+            }
             _context.Cursos.Add(curso);
             await _context.SaveChangesAsync();
 
@@ -100,6 +112,8 @@ namespace Primer_proyecto.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCurso(int id)
         {
+            _logger.LogInformation($"{nameof(Cursos)} - {nameof(DeleteCurso)} Info Level Log");
+
             if (_context.Cursos == null)
             {
                 return NotFound();

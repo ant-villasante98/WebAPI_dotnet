@@ -23,7 +23,7 @@ public class UniversityDBContext : DbContext
         var logger = _loggerFactory.CreateLogger<UniversityDBContext>();
         //optionsBuilder.LogTo(d => logger.Log(LogLevel.Information, d, new[] { DbLoggerCategory.Database.Name }));
         optionsBuilder.EnableSensitiveDataLogging();
-        optionsBuilder.LogTo(d => logger.Log(LogLevel.Information, d, new[] { DbLoggerCategory.Database.Name }), LogLevel.Information)
+        optionsBuilder.LogTo(d => logger.Log(LogLevel.Information, d, new[] { DbLoggerCategory.Database.Name }), LogLevel.Warning)
             .EnableSensitiveDataLogging()
             .EnableDetailedErrors();
     }

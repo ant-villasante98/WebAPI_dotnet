@@ -18,10 +18,12 @@ namespace Primer_proyecto.Controllers
     {
         private readonly UniversityDBContext _context;
         private readonly JwtSettings _jwtSettings;
-        public AccountController(JwtSettings jwtSettings, UniversityDBContext context)
+        private readonly ILogger<AccountController> _logger;
+        public AccountController(JwtSettings jwtSettings, UniversityDBContext context, ILogger<AccountController> logger)
         {
             _context = context;
             _jwtSettings = jwtSettings;
+            _logger = logger;
         }
 
         // Examples Users
@@ -32,6 +34,8 @@ namespace Primer_proyecto.Controllers
         [HttpPost]
         public IActionResult GetToken(UserLogins userLogin)
         {
+            _logger.LogInformation($"{nameof(AccountController)} - {nameof(GetToken)} Info Level Log");
+
 
             // Modificar para Acceder desde el contexto  con Linq
             try
@@ -79,7 +83,10 @@ namespace Primer_proyecto.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"{nameof(AccountController)} - {nameof(GetToken)} Error Level Log: {ex.Message}");
+
                 throw new Exception("GetToken Error ", ex);
+
             }
 
         }
@@ -88,6 +95,8 @@ namespace Primer_proyecto.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
         public IActionResult GetUserList()
         {
+            _logger.LogInformation($"{nameof(AccountController)} - {nameof(GetUserList)} Info Level Log");
+
             var users = _context.Users;
             if (users == null) return NotFound();
 

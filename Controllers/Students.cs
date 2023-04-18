@@ -19,17 +19,22 @@ namespace Primer_proyecto.Controllers
         //Service
         private readonly IStudentService _studentService;
 
+        private readonly ILogger<Students> _logger;
 
-        public Students(UniversityDBContext context, IStudentService studentService)
+
+        public Students(UniversityDBContext context, ILogger<Students> logger, IStudentService studentService)
         {
             _context = context;
             _studentService = studentService;
+            _logger = logger;
         }
 
         // GET: api/Students
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
         {
+            _logger.LogInformation($"{nameof(Students)} - {nameof(GetStudents)} Info Level Log");
+
             if (_context.Students == null)
             {
                 return NotFound();
@@ -41,6 +46,8 @@ namespace Primer_proyecto.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Student>> GetStudent(int id)
         {
+            _logger.LogInformation($"{nameof(Students)} - {nameof(GetStudent)} Info Level Log");
+
             if (_context.Students == null)
             {
                 return NotFound();
@@ -60,6 +67,8 @@ namespace Primer_proyecto.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStudent(int id, Student student)
         {
+            _logger.LogInformation($"{nameof(Students)} - {nameof(PutStudent)} Info Level Log");
+
             if (id != student.Id)
             {
                 return BadRequest();
@@ -73,6 +82,8 @@ namespace Primer_proyecto.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
+                _logger.LogError($"{nameof(Students)} - {nameof(PutStudent)} Error Level Log");
+
                 if (!StudentExists(id))
                 {
                     return NotFound();
@@ -91,6 +102,8 @@ namespace Primer_proyecto.Controllers
         [HttpPost]
         public async Task<ActionResult<Student>> PostStudent(Student student)
         {
+            _logger.LogInformation($"{nameof(Students)} - {nameof(PostStudent)} Info Level Log");
+
             if (_context.Students == null)
             {
                 return Problem("Entity set 'UniversityDBContext.Students'  is null.");
@@ -105,6 +118,8 @@ namespace Primer_proyecto.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStudent(int id)
         {
+            _logger.LogInformation($"{nameof(Students)} - {nameof(DeleteStudent)} Info Level Log");
+
             if (_context.Students == null)
             {
                 return NotFound();
