@@ -12,8 +12,8 @@ using Primer_proyecto.DataAcces;
 namespace Primer_proyecto.Migrations
 {
     [DbContext(typeof(UniversityDBContext))]
-    [Migration("20230312152838_ChapterUpdate")]
-    partial class ChapterUpdate
+    [Migration("20230421233650_Chapters")]
+    partial class Chapters
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -134,7 +134,7 @@ namespace Primer_proyecto.Migrations
                     b.HasIndex("CursoId")
                         .IsUnique();
 
-                    b.ToTable("Chapter");
+                    b.ToTable("Chapters");
                 });
 
             modelBuilder.Entity("Primer_proyecto.Models.DataModels.Curso", b =>

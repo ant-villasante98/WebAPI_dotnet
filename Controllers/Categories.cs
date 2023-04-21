@@ -13,59 +13,60 @@ namespace Primer_proyecto.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Users : ControllerBase
+    public class Categories : ControllerBase
     {
         private readonly UniversityDBContext _context;
 
-        public Users(UniversityDBContext context)
+        public Categories(UniversityDBContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/Categories
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
-            Stopwatch stopwatch = Stopwatch.StartNew();
-            if (_context.Users == null)
+            var stopwatch = Stopwatch.StartNew();
+            if (_context.Categories == null)
             {
                 return NotFound();
             }
-            var users = await _context.Users.ToListAsync();
+
+            var categories = await _context.Categories.ToListAsync();
             stopwatch.Stop();
-            Console.WriteLine($"Tiempo demorado de {nameof(Users)} - {nameof(GetUsers)}: {stopwatch.Elapsed} ");
-            return users;
+            Console.WriteLine($"Tiempo demorado de {nameof(Categories)} - {nameof(GetCategories)}: {stopwatch.Elapsed} ");
+            return categories;
         }
 
-        // GET: api/Users/5
+        // GET: api/Categories/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<Category>> GetCategory(int id)
         {
-            if (_context.Users == null)
+            if (_context.Categories == null)
             {
                 return NotFound();
             }
-            var user = await _context.Users.FindAsync(id);
+            var category = await _context.Categories.FindAsync(id);
 
-            if (user == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return category;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/Categories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutCategory(int id, Category category)
         {
-            if (id != user.Id)
+            if (id != category.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(category).State = EntityState.Modified;
 
             try
             {
@@ -73,7 +74,7 @@ namespace Primer_proyecto.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!CategoryExists(id))
                 {
                     return NotFound();
                 }
@@ -86,44 +87,44 @@ namespace Primer_proyecto.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/Categories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<Category>> PostCategory(Category category)
         {
-            if (_context.Users == null)
+            if (_context.Categories == null)
             {
-                return Problem("Entity set 'UniversityDBContext.Users'  is null.");
+                return Problem("Entity set 'UniversityDBContext.Categories'  is null.");
             }
-            _context.Users.Add(user);
+            _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetCategory", new { id = category.Id }, category);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/Categories/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteCategory(int id)
         {
-            if (_context.Users == null)
+            if (_context.Categories == null)
             {
                 return NotFound();
             }
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        private bool CategoryExists(int id)
         {
-            return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

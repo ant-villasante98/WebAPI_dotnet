@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Primer_proyecto.DataAcces;
 using Primer_proyecto.Models.DataModels;
+using System.Diagnostics;
 
 namespace Primer_proyecto.Controllers
 {
@@ -27,13 +28,17 @@ namespace Primer_proyecto.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Curso>>> GetCursos()
         {
+            var stopwatch = Stopwatch.StartNew();
             _logger.LogInformation($"{nameof(Cursos)} - {nameof(GetCursos)} Info Level Log");
 
             if (_context.Cursos == null)
             {
                 return NotFound();
             }
-            return await _context.Cursos.ToListAsync();
+            var cursos = await _context.Cursos.ToListAsync();
+            stopwatch.Stop();
+            Console.WriteLine($"Tiempo demorado de {nameof(Cursos)} - {nameof(GetCursos)}: {stopwatch.Elapsed} ");
+            return cursos;
         }
 
         // GET: api/Cursos/5

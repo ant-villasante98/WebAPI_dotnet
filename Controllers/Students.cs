@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Primer_proyecto.DataAcces;
 using Primer_proyecto.Models.DataModels;
 using Primer_proyecto.Services;
+using System.Diagnostics;
 
 namespace Primer_proyecto.Controllers
 {
@@ -33,13 +34,19 @@ namespace Primer_proyecto.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
         {
+            var stopwatch = Stopwatch.StartNew();
             _logger.LogInformation($"{nameof(Students)} - {nameof(GetStudents)} Info Level Log");
 
             if (_context.Students == null)
             {
                 return NotFound();
             }
-            return await _context.Students.ToListAsync();
+
+            var students = await _context.Students.ToListAsync();
+            stopwatch.Stop();
+            Console.WriteLine($"Tiempo demorado de {nameof(Students)} - {nameof(GetStudents)}: {stopwatch.Elapsed} ");
+
+            return students;
         }
 
         // GET: api/Students/5

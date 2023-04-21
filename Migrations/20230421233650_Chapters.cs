@@ -5,7 +5,7 @@
 namespace Primer_proyecto.Migrations
 {
     /// <inheritdoc />
-    public partial class ChapterUpdate : Migration
+    public partial class Chapters : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
